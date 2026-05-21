@@ -1,13 +1,24 @@
 import { test, expect } from '@playwright/test';
 
-test.use({storageState:'auth.json'})
-test('Admin', async ({ page }) => {
-test.setTimeout(150000);
-  // Open Admin Module Directly
-  await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewSystemUsers');
+test.use({
+  storageState: 'auth.json'
+});
+
+test('Admin Module Test', async ({ page }) => {
+
+  test.setTimeout(150000);
+
+  // Open Admin Module
+  await page.goto(
+    'https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewSystemUsers'
+  );
 
   // Verify Admin Page
-  await expect(page.getByRole('heading', {name: 'Admin'})).toBeVisible();
+  await expect(
+    page.getByRole('heading', {
+      name: 'Admin'
+    })
+  ).toBeVisible();
 
   // Enter Username
   await page.locator('form input').nth(1).fill('Admin');
@@ -15,20 +26,25 @@ test.setTimeout(150000);
   // Select User Role
   await page.locator('.oxd-select-text').first().click();
 
-  await page.getByRole('option', {name: 'Admin'}).click();
+  await page.getByRole('option', {
+    name: 'Admin'
+  }).click();
 
   // Click Search
-  await page.getByRole('button', {name: 'Search'}).click();
+  await page.getByRole('button', {
+    name: 'Search'
+  }).click();
 
   // Verify Search Result
-  await expect(page.locator('.oxd-table-body')).toContainText('Admin');
+  await expect(
+    page.locator('.oxd-table-body')
+  ).toContainText('Admin');
 
-  // Select First User Checkbox
-  await page.locator('.oxd-table-card .oxd-checkbox-input').first().click();
-
-  await page.locator('.oxd-table-card .oxd-checkbox-input').first().click();
-});
-
+  // Select First Checkbox
+  await page.locator(
+    '.oxd-table-card .oxd-checkbox-input'
+  ).first().click();
+ });
 
   //await page.getByRole('textbox', { name: 'Username' }).click();
   //await page.getByRole('textbox', { name: 'Username' }).fill('Admin');

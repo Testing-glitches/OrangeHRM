@@ -1,19 +1,31 @@
 import { test, expect } from '@playwright/test';
 
-test('Login Test', async ({ page }) => {
+test('Negative Login Test', async ({ page }) => {
 
-  await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+  test.setTimeout(60000);
 
-  // Login
-  await page.locator('input[name="username"]').fill('Admin');
-  await page.locator('input[name="password"]').fill('admin123');
+  // Open Login Page
+  await page.goto(
+    'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login'
+  );
 
-  await page.getByRole('button', { name: 'Login' }).click();
+  // Enter Invalid Credentials
+  await page.locator(
+    'input[name="username"]'
+  ).fill('InvalidUser');
 
-  // Wait for dashboard
-  await page.waitForURL('**/dashboard/index');
+  await page.locator(
+    'input[name="password"]'
+  ).fill('WrongPassword');
 
-  // Verify Dashboard
-  await expect(page.locator('h6:has-text("Dashboard")')).toBeVisible();
+  // Click Login
+  await page.getByRole('button', {
+    name: 'Login'
+  }).click();
+
+  // Verify Error Message
+  await expect(
+    page.getByText('Invalid credentials')
+  ).toBeVisible();
 
 });

@@ -1,24 +1,40 @@
 import { test, expect } from '@playwright/test';
 
-test.use({storageState: 'auth.json'});
+test.use({
+  storageState: 'auth.json'
+});
 
 test('Negative Admin Search Test', async ({ page }) => {
 
   test.setTimeout(150000);
 
   // Open Admin Module
-  await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewSystemUsers');
+  await page.goto(
+    'https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewSystemUsers'
+  );
 
   // Verify Admin Page
-  a//wait expect(page.getByRole('heading', {name: 'Admin'})).toBeVisible();
+  await expect(
+    page.getByRole('heading', {
+      name: 'Admin'
+    })
+  ).toBeVisible();
 
   // Enter Invalid Username
-  await page.locator('input.oxd-input.oxd-input--active').nth(1).fill('InvalidUser123');
+  await page.locator(
+    'input.oxd-input.oxd-input--active'
+  ).nth(1).fill('InvalidUser123');
 
   // Click Search
-  await page.getByRole('button', {name: 'Search'}).click();
+  await page.getByRole('button', {
+    name: 'Search'
+  }).click();
 
+  // Verify No Records Found
   await expect(
-  page.getByText('No Records Found').last()
-).toBeVisible({ timeout: 10000 });
-});
+    page.getByText('No Records Found').last()
+  ).toBeVisible({
+    timeout: 10000
+  });
+
+ });
