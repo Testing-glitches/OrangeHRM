@@ -2,27 +2,25 @@ import { test, expect } from '@playwright/test';
 
 test('Login and save auth session', async ({ page }) => {
 
-  // Increase timeout because website can be slow
-  test.setTimeout(60000);
+  test.setTimeout(120000);
 
-  // Open OrangeHRM Login Page
-  await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login',{waitUntil: 'domcontentloaded'});
+  await page.goto(
+    'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login'
+  );
 
-  // Enter Username
-  await page.getByRole('textbox', {name: 'Username'}).fill('Admin');
+  await page.locator('input[name="username"]').fill('Admin');
 
-  // Enter Password
-  await page.getByRole('textbox', {name: 'Password'}).fill('admin123');
+  await page.locator('input[name="password"]').fill('admin123');
 
-  // Click Login Button
-  await page.getByRole('button', {name: 'Login'}).click();
+  await page.getByRole('button', { name: 'Login' }).click();
 
-  // Verify Dashboard URL after successful login
-  await page.waitForURL(/dashboard/);
+  await expect(
+    page.getByRole('heading', { name: 'Dashboard' })
+  ).toBeVisible();
 
-  // Save Login Session in auth.json file
-  await page.context().storageState({path: 'auth.json'});
+  await page.context().storageState({
+    path: 'auth.json'
+  });
 
-  console.log('Auth session saved successfully');
-
+  console.log('Auth Saved');
 });
