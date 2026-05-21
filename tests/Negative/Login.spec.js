@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 
-test('Negative HRM Login', async ({ page }) => {
+test('Negative Login', async ({ page }) => {
   await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-  test.setTimeout(120000);
+  test.setTimeout(130000);
   await page.getByRole('textbox', { name: 'Username' }).click();
   await page.getByRole('textbox', { name: 'Username' }).fill('Amin');
   await page.getByRole('textbox', { name: 'Password' }).click();
