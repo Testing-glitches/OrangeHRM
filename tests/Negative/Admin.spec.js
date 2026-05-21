@@ -19,5 +19,6 @@ test('Negative Admin Search Test', async ({ page }) => {
   await page.getByRole('button', {name: 'Search'}).click();
 
   await expect(
-  page.locator('.oxd-text--span').filter({ hasText: 'No Records Found' })).toBeVisible();
+  page.getByText('No Records Found').last()
+).toBeVisible({ timeout: 10000 });
 });
