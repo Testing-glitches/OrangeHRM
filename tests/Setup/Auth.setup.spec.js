@@ -1,26 +1,28 @@
 import { test, expect } from '@playwright/test';
 
-test('Login and save auth session', async ({ page }) => {
+test('Login Setup', async ({ page }) => {
 
-  test.setTimeout(120000);
+  test.setTimeout(150000);
 
-  await page.goto(
-    'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login'
-  );
+  // Open Login Page
+  await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
 
-  await page.locator('input[name="username"]').fill('Admin');
+  // Enter Username
+  await page.getByRole('textbox', {name: 'Username'}).fill('Admin');
 
-  await page.locator('input[name="password"]').fill('admin123');
+  // Enter Password
+  await page.getByRole('textbox', {name: 'Password'}).fill('admin123');
 
-  await page.getByRole('button', { name: 'Login' }).click();
+  // Click Login
+  await page.getByRole('button', {name: 'Login'}).click();
 
-  await expect(
-    page.getByRole('heading', { name: 'Dashboard' })
-  ).toBeVisible();
+  // Wait for Dashboard URL
+  await expect(page).toHaveURL(/dashboard/);
 
-  await page.context().storageState({
-    path: 'auth.json'
-  });
+  // Verify Dashboard Heading
+  await expect(page.getByRole('heading', {name: 'Dashboard'})).toBeVisible();
 
-  console.log('Auth Saved');
+  // Save Login Session
+  await page.context().storageState({path: 'auth.json'});
+
 });

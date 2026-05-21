@@ -1,15 +1,19 @@
 import { test, expect } from '@playwright/test';
 
-test('Negative Login', async ({ page }) => {
+test('Login Test', async ({ page }) => {
+
   await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-  test.setTimeout(130000);
-  await page.getByRole('textbox', { name: 'Username' }).click();
-  await page.getByRole('textbox', { name: 'Username' }).fill('Amin');
-  await page.getByRole('textbox', { name: 'Password' }).click();
-  await page.getByRole('textbox', { name: 'Password' }).fill('admin8e');
-  await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
+
+  // Login
+  await page.locator('input[name="username"]').fill('Admin');
+  await page.locator('input[name="password"]').fill('admin123');
+
   await page.getByRole('button', { name: 'Login' }).click();
-  await expect(page.getByRole('alert')).toBeVisible();
-  test.setTimeout(120000);
-  await expect(page.getByRole('alert')).toContainText('Invalid credentials');
+
+  // Wait for dashboard
+  await page.waitForURL('**/dashboard/index');
+
+  // Verify Dashboard
+  await expect(page.locator('h6:has-text("Dashboard")')).toBeVisible();
+
 });

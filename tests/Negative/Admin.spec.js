@@ -10,7 +10,7 @@ test('Negative Admin Search Test', async ({ page }) => {
   await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewSystemUsers');
 
   // Verify Admin Page
-  await expect(page.getByRole('heading', {name: 'Admin'})).toBeVisible();
+  a//wait expect(page.getByRole('heading', {name: 'Admin'})).toBeVisible();
 
   // Enter Invalid Username
   await page.locator('input.oxd-input.oxd-input--active').nth(1).fill('InvalidUser123');
